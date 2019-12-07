@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+     <!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin="">
+</script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+<div class="container py-5">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="card">
+				<div class="card-header" style=" background-color: grey; color:white;">
+					<h3>Maping</h3>
+				</div>
+				<div class="card-body">
+					<div id="map" style=" height: 500px;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header" style="background-color: grey; color:white;">
+					<h3>Data User</h3>
+				</div>
+				<div class="card-body">
+					<div class="form-group">
+						<input type="text" name="lat" id="lat" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<input type="text" name="lng" id="lng" class="form-control" readonly>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var map = L.map('map').setView([-0.8543951,100.3842921], 13); 
+
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    accessToken: 'pk.eyJ1IjoiZWdvZGFzYSIsImEiOiJjamd4NWkyMmwwNms2MnhsamJvaWQ3NGZmIn0.6ok1IiPZ0sPNXmiIe-iEWA'
+	}).addTo(map);
+
+	var marker = L.marker([-0.8543951,100.3842921]).addTo(map);
+
+    function showLocation( position ) {
+
+	// pas lokasi basobok, jalankan kode yg ado didalam function ko
+	   var geolocation = navigator.geolocation.getCurrentPosition(function(pos){
+	   	// kode dibawah ko dijalankan pas posisi gps basobok
+	   	    var lat = pos.coords.latitude; // ambiak lat gps 
+		    var lng = pos.coords.longitude; // ambiak lng gps
+		    console.log(lat);
+		    console.log(lng);
+		   	map.setView([lat,lng]); // ubah tampilan posisi peta ke posisi gps
+		   	marker.setLatLng([lat,lng]); // pindahkan posisi marker ke posisi gps
+		   	circle.setLatLng([lat,lng]); // pindahkan posisi lingkaran ke posisi gps
+		   	pop.setLatLng([lat,lng]);
+		   	// bounds.setLatLng([lat,lng])
+		   	alert(lat);
+		   	console.log(lng);
+		   	document.getElementById('lat').value = lat;
+		   	document.getElementById('lng').value = lng;
+	   });
+
+	showLocation()
+	   
+	}
+</script>
+</body>
+</html>
